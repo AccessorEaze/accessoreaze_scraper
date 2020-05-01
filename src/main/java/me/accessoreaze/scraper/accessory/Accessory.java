@@ -43,4 +43,12 @@ public abstract class Accessory {
     public void setPrice(double price) {
         this.price = price;
     }
+
+    public String toString(){
+        String result = this.model + ": " + this.price;
+
+        result += "\nURL:" + this.url + "\nPicture:" + this.picture;
+
+        return result;
+    }
 }

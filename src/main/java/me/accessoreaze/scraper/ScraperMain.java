@@ -1,22 +1,27 @@
 package me.accessoreaze.scraper;
 
 import me.accessoreaze.scraper.accessory.Accessory;
+import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIPhoneCase;
 import me.accessoreaze.scraper.scapers.Scaper;
-import me.accessoreaze.scraper.scapers.screenprotector.PBTechScreenProtectedScraper;
+import me.accessoreaze.scraper.scapers.pbTech.PBTechScreenProtectedScraper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class ScraperMain {
+
+    public static DecimalFormat df = new DecimalFormat("0.00");
 
     public static void main(String[] args) {
         List<Scaper> scrapers = new ArrayList<>();
 
         // Add more scrapers here, group them
-        scrapers.add(new PBTechScreenProtectedScraper());
-
+//        scrapers.add(new PBTechScreenProtectedScraper());
+//        scrapers.add(new PBTechPhoneCase());
+        scrapers.add(new JBHIFIPhoneCase());
         // Run each scraper
         //for (Scaper scraper : scrapers) {
         //    runScraper(scraper);
@@ -63,6 +68,7 @@ public class ScraperMain {
                 Collection<Accessory> pageAccessories = scraper.getAccessories(pageDocument);
                 // Add to main collection
                 accessoriesAll.addAll(pageAccessories);
+                System.out.println(accessoriesAll.size());
             }
             // TODO Add to db
         } catch (Exception e) {
