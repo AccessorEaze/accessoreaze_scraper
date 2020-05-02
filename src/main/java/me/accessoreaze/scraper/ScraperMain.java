@@ -2,6 +2,7 @@ package me.accessoreaze.scraper;
 
 import me.accessoreaze.scraper.accessory.Accessory;
 import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIPhoneCase;
+import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIScreenProtector;
 import me.accessoreaze.scraper.scapers.Scaper;
 import me.accessoreaze.scraper.scapers.pbTech.PBTechScreenProtectedScraper;
 import org.jsoup.Jsoup;
@@ -21,7 +22,8 @@ public class ScraperMain {
         // Add more scrapers here, group them
 //        scrapers.add(new PBTechScreenProtectedScraper());
 //        scrapers.add(new PBTechPhoneCase());
-        scrapers.add(new JBHIFIPhoneCase());
+        scrapers.add(new JBHIFIScreenProtector());
+//        scrapers.add(new JBHIFIPhoneCase());
         // Run each scraper
         //for (Scaper scraper : scrapers) {
         //    runScraper(scraper);

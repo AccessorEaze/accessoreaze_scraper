@@ -3,7 +3,6 @@ package me.accessoreaze.scraper.scapers.JBHIFI;
 import me.accessoreaze.scraper.ScraperMain;
 import me.accessoreaze.scraper.accessory.Accessory;
 import me.accessoreaze.scraper.accessory.PhoneCase;
-import me.accessoreaze.scraper.accessory.ScreenProtector;
 import me.accessoreaze.scraper.accessory.type.AccessoryType;
 import me.accessoreaze.scraper.scapers.Scaper;
 import org.jsoup.nodes.Document;
@@ -14,16 +13,16 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class JBHIFIPhoneCase implements Scaper {
+public class JBHIFIScreenProtector implements Scaper {
 
     public static void main(String[] args) {
-        ScraperMain.test(new JBHIFIPhoneCase());
+        ScraperMain.test(new JBHIFIScreenProtector());
     }
 
     // This is the first page to scrape, giving us the amount of pages
     @Override
     public String getScrapeURL() {
-        return getBaseURL() + "/phones/phone-cases/";
+        return getBaseURL() + "/phones/phone-screen-protection/";
     }
 
 
@@ -53,7 +52,7 @@ public class JBHIFIPhoneCase implements Scaper {
     // Accessory type
     @Override
     public AccessoryType getType() {
-        return AccessoryType.SCREEN_PROTECTOR;
+        return AccessoryType.PHONE_CASE;
     }
 
     @Override
@@ -86,7 +85,7 @@ public class JBHIFIPhoneCase implements Scaper {
 
             String caseUrl = getBaseURL() + e.select(".link").attr("href");
 
-            cases.add(new ScreenProtector(title, model, caseUrl, image, price));
+            cases.add(new PhoneCase(title, model, caseUrl, image, price));
 
         }
 
@@ -96,4 +95,3 @@ public class JBHIFIPhoneCase implements Scaper {
         return cases;
     }
 }
-

@@ -134,7 +134,7 @@ public class PBTechPhoneCase implements Scaper {
             price = price*1.15;
             price = Double.parseDouble(ScraperMain.df.format(price));
             System.out.println(model + ": " + imageBig + " : " + price);
-            accessories.add(new PhoneCase(model, itemUrl, "image", 0.0));
+            accessories.add(new PhoneCase(name, model, itemUrl, "image", 0.0));
         }
         return accessories;
     }

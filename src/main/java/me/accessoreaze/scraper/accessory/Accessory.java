@@ -2,10 +2,11 @@ package me.accessoreaze.scraper.accessory;
 
 public abstract class Accessory {
 
-    protected String model, url, picture;
+    protected String model, url, picture, name;
     protected double price;
 
-    public Accessory(String model, String url, String picture, double price) {
+    public Accessory(String name, String model, String url, String picture, double price) {
+        this.name = name;
         this.model = model;
         this.url = url;
         this.picture = picture;
