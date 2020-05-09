@@ -75,10 +75,19 @@ public class JBHIFIPhoneCase implements Scaper {
             String model = title.substring(title.indexOf("for")+4);
 
             String strPrice = e.select(".oldPriceWrapper").text();
-            //remove everything except . and numbers from that string
-            strPrice = strPrice.replaceAll("[^\\d.]", "");
-            Double price = Double.parseDouble(strPrice);
+            Double price;
 
+            //handling sale error
+            try {
+                //remove everything except . and numbers from that string
+                strPrice = strPrice.replaceAll("[^\\d.]", "");
+                price = Double.parseDouble(strPrice);
+            } catch(NumberFormatException exc)
+            {
+                strPrice = e.select(".oldPriceWrapper .amount.onSale").text();
+                strPrice = strPrice.replaceAll("[^\\d.]", "");
+                price = Double.parseDouble(strPrice);
+            }
             //removes colour of the case
             model = model.split("\\(")[0];
 

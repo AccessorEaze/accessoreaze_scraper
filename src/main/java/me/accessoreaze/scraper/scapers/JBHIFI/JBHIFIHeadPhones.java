@@ -2,7 +2,8 @@ package me.accessoreaze.scraper.scapers.JBHIFI;
 
 import me.accessoreaze.scraper.ScraperMain;
 import me.accessoreaze.scraper.accessory.Accessory;
-import me.accessoreaze.scraper.accessory.PhoneCase;
+import me.accessoreaze.scraper.accessory.HeadPhones;
+import me.accessoreaze.scraper.accessory.ScreenProtector;
 import me.accessoreaze.scraper.accessory.type.AccessoryType;
 import me.accessoreaze.scraper.scapers.Scaper;
 import org.jsoup.nodes.Document;
@@ -13,16 +14,16 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class JBHIFIScreenProtector implements Scaper {
+public class JBHIFIHeadPhones implements Scaper {
 
     public static void main(String[] args) {
-        ScraperMain.test(new JBHIFIScreenProtector());
+        ScraperMain.test(new JBHIFIPhoneCase());
     }
 
     // This is the first page to scrape, giving us the amount of pages
     @Override
     public String getScrapeURL() {
-        return getBaseURL() + "/phones/phone-screen-protection/";
+        return getBaseURL() + "/headphones-speakers-audio/headphones/";
     }
 
 
@@ -38,7 +39,6 @@ public class JBHIFIScreenProtector implements Scaper {
 
         int maxPages = Integer.parseInt(document.select(".message.bp.bp3.bp4 .total").first().text());
         maxPages = (int)(Math.ceil((double)maxPages/36));
-
         // For each number up to max
         for(int page = 1; page <= maxPages; page++){
             // Add each page to scrape
@@ -52,7 +52,7 @@ public class JBHIFIScreenProtector implements Scaper {
     // Accessory type
     @Override
     public AccessoryType getType() {
-        return AccessoryType.PHONE_CASE;
+        return AccessoryType.HEADPHONES;
     }
 
     @Override
@@ -60,45 +60,58 @@ public class JBHIFIScreenProtector implements Scaper {
         // Get the list of items
         Elements page = document.select(".grid.load-more-section .span03.product-tile");
 
-        Set<Accessory> cases = new LinkedHashSet<>();
+               Set<Accessory> headphones = new LinkedHashSet<>();
 
         for (Element e : page) {
             // name of the case
             String title = e.attr("title");
+//            if (!title.contains("earphone") && !title.contains("headphone") && !title.contains("pod"))
+//            {
+//                continue;
+//            }
 
-            if (!title.contains("for"))
+            String model;
+
+            if (title.contains("wireless") || title.contains("bud"))
             {
-                continue;
+                 model = "Wireless";
+            }
+            else
+            {
+                model = "" ;
             }
 
-            String model = title.substring(title.indexOf("for")+4);
-
             String strPrice = e.select(".oldPriceWrapper").text();
+            //remove everything except . and numbers from that string
+//            System.out.println(strPrice);
+
             Double price;
 
             //handling sale error
             try {
-                //remove everything except . and numbers from that string
                 strPrice = strPrice.replaceAll("[^\\d.]", "");
-                price = Double.parseDouble(strPrice);
+                 price = Double.parseDouble(strPrice);
             } catch(NumberFormatException exc)
             {
                 strPrice = e.select(".oldPriceWrapper .amount.onSale").text();
                 strPrice = strPrice.replaceAll("[^\\d.]", "");
-                price = Double.parseDouble(strPrice);
+                 price = Double.parseDouble(strPrice);
             }
+
+            //removes colour of the case
+//            model = model.split("\\(")[0];
 
             String image = getBaseURL() + e.select(".image").first().getElementsByTag("img").first().attr("data-src");
 
             String caseUrl = getBaseURL() + e.select(".link").attr("href");
 
-            cases.add(new PhoneCase(title, model, caseUrl, image, price));
+            headphones.add(new HeadPhones(title, model, caseUrl, image, price));
 
         }
 
-        for (Accessory acc : cases) {
+        for (Accessory acc : headphones) {
             System.out.println(acc.toString());
         }
-        return cases;
+        return headphones;
     }
 }

@@ -1,6 +1,7 @@
 package me.accessoreaze.scraper;
 
 import me.accessoreaze.scraper.accessory.Accessory;
+import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIHeadPhones;
 import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIPhoneCase;
 import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIScreenProtector;
 import me.accessoreaze.scraper.scapers.Scaper;
@@ -22,8 +23,9 @@ public class ScraperMain {
         // Add more scrapers here, group them
 //        scrapers.add(new PBTechScreenProtectedScraper());
 //        scrapers.add(new PBTechPhoneCase());
-        scrapers.add(new JBHIFIScreenProtector());
+//        scrapers.add(new JBHIFIScreenProtector());
 //        scrapers.add(new JBHIFIPhoneCase());
+            scrapers.add(new JBHIFIHeadPhones());
         // Run each scraper
         //for (Scaper scraper : scrapers) {
         //    runScraper(scraper);
@@ -70,9 +72,12 @@ public class ScraperMain {
                 Collection<Accessory> pageAccessories = scraper.getAccessories(pageDocument);
                 // Add to main collection
                 accessoriesAll.addAll(pageAccessories);
-                System.out.println(accessoriesAll.size());
+//                System.out.println(accessoriesAll.size());
             }
             // TODO Add to db
+
+//            Connection conn = new Connection
+
         } catch (Exception e) {
             e.printStackTrace();
         }
