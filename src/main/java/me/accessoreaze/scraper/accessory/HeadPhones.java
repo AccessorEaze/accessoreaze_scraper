@@ -1,16 +1,17 @@
 package me.accessoreaze.scraper.accessory;
 
+import me.accessoreaze.scraper.accessory.type.AccessoryType;
+
 public class HeadPhones extends Accessory {
 
-    private String type;
 
     public HeadPhones(String name,String model, String url, String picture, double price) {
         super(name, model, url, picture, price);
-//        this.type = type;
-    }
 
-//    public String getType()
-//    {
-//        return this.type;
-//    }
+        type = AccessoryType.HEADPHONES;
+    }
+    public AccessoryType getAccessoryType()
+    {
+        return this.type;
+    }
 }

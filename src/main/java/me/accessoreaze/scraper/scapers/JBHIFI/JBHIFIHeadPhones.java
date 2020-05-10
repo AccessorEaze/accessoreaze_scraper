@@ -72,13 +72,13 @@ public class JBHIFIHeadPhones implements Scaper {
 
             String model;
 
-            if (title.contains("wireless") || title.contains("bud"))
+            if (title.toLowerCase().contains("wireless") || title.toLowerCase().contains("bud"))
             {
                  model = "Wireless";
             }
             else
             {
-                model = "" ;
+                model = "3.5mm Jack" ;
             }
 
             String strPrice = e.select(".oldPriceWrapper").text();

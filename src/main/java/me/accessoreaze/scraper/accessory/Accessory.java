@@ -1,9 +1,13 @@
 package me.accessoreaze.scraper.accessory;
 
+import me.accessoreaze.scraper.accessory.type.AccessoryType;
+
 public abstract class Accessory {
 
     protected String model, url, picture, name;
     protected double price;
+    protected AccessoryType type;
+
 
     public Accessory(String name, String model, String url, String picture, double price) {
         this.name = name;
@@ -43,6 +47,17 @@ public abstract class Accessory {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public AccessoryType getAccessoryType()
+    {
+        return this.type;
+    }
+
+
+    public String getName()
+    {
+        return this.name;
     }
 
     public String toString(){

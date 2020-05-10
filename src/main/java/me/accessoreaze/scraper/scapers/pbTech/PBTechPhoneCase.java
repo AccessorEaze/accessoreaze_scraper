@@ -110,7 +110,7 @@ public class PBTechPhoneCase implements Scaper {
             if(imageArea != null){
                 image = imageArea.getElementsByTag("img").last().attr("src");
                 try {
-                    System.out.println(image);
+//                    System.out.println(image);
                     imageBig = "https://www.pbtech.co.nz/imgprod/M/P/" + image.substring(36).split(".large")[0];
                 }catch (ArrayIndexOutOfBoundsException e){
                     e.printStackTrace();
@@ -134,7 +134,7 @@ public class PBTechPhoneCase implements Scaper {
             price = price*1.15;
             price = Double.parseDouble(ScraperMain.df.format(price));
             System.out.println(model + ": " + imageBig + " : " + price);
-            accessories.add(new PhoneCase(name, model, itemUrl, "image", 0.0));
+            accessories.add(new PhoneCase(name, model, itemUrl, "image", price));
         }
         return accessories;
     }
