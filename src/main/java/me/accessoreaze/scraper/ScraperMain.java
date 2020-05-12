@@ -2,7 +2,10 @@ package me.accessoreaze.scraper;
 
 import me.accessoreaze.scraper.accessory.Accessory;
 import me.accessoreaze.scraper.accessory.type.AccessoryType;
-import me.accessoreaze.scraper.database.JDBC;
+import me.accessoreaze.scraper.database.databases.AccessoryDatabase;
+import me.accessoreaze.scraper.database.databases.AccessoryTypeDatabase;
+import me.accessoreaze.scraper.database.mysql.MySQLDatabase;
+import me.accessoreaze.scraper.database.mysql.MySQLProperties;
 import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIHeadPhones;
 import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIPhoneCase;
 import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIScreenProtector;
@@ -12,7 +15,9 @@ import me.accessoreaze.scraper.scapers.pbTech.PBTechScreenProtectedScraper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import java.io.IOException;
+import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -24,9 +29,18 @@ import static java.lang.Class.forName;
 public class ScraperMain {
 
     public static DecimalFormat df = new DecimalFormat("0.00");
-    private static JDBC db = new JDBC();
+    private static MySQLDatabase database;
 
     public static void main(String[] args) {
+        new ScraperMain();
+    }
+
+    public ScraperMain(){
+        saveResource(new File("."), "mysql.properties", false);
+        MySQLProperties properties = new MySQLProperties(new File(".", "mysql.properties"));
+        database = new MySQLDatabase(properties, true);
+        database.addListener(new AccessoryDatabase());
+        database.addListener(new AccessoryTypeDatabase());
 
         List<Scaper> scrapers = new ArrayList<>();
 
@@ -35,15 +49,19 @@ public class ScraperMain {
         scrapers.add(new PBTechPhoneCase());
         scrapers.add(new JBHIFIScreenProtector());
         scrapers.add(new JBHIFIPhoneCase());
-            scrapers.add(new JBHIFIHeadPhones());
+        scrapers.add(new JBHIFIHeadPhones());
         // Run each scraper
         //for (Scaper scraper : scrapers) {
         //    runScraper(scraper);
         //}
 
 
+
         // Using java 8 achieves the same result
-        scrapers.forEach(ScraperMain::runScraper);
+        List<Accessory> accessories = new ArrayList<>();
+        scrapers.forEach(scaper -> accessories.addAll(runScraper(scaper)));
+
+        accessories.forEach(AccessoryDatabase::insertAccessory);
     }
 
     public static void test(Scaper scraper) {
@@ -65,15 +83,15 @@ public class ScraperMain {
         }
     }
 
-    private static void runScraper(Scaper scraper) {
+    private static Set<Accessory> runScraper(Scaper scraper) {
+        // Create collection of accessories
+        Set<Accessory> accessoriesAll = new LinkedHashSet<>();
         try {
             // Connect to main page
             Document website = connect(scraper.getScrapeURL());
             // Obtain list of pages
             Collection<String> pages = scraper.getPages(website);
 
-            // Create collection of accessories
-            Set<Accessory> accessoriesAll = new LinkedHashSet<>();
 
             // For each page
             for (String page : pages) {
@@ -89,49 +107,10 @@ public class ScraperMain {
 
             String tableName = "";
             Accessory first = accessoriesAll.iterator().next();
-
-            if (first.getAccessoryType() == AccessoryType.PHONE_CASE)
-            {
-                tableName = JDBC.phoneCaseTable;
-            }
-            else if (first.getAccessoryType() == AccessoryType.SCREEN_PROTECTOR)
-            {
-                tableName = JDBC.screenProtectorTable;
-            }
-            else if (first.getAccessoryType() == AccessoryType.HEADPHONES)
-            {
-                tableName = JDBC.headPhonesTable;
-            }
-
-            db.updateTable(tableName, accessoriesAll);
-
-
-            /* System.out.println(accessoriesAll.toString());
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            String url = "jdbc:mysql://localhost/testscraper";
-
-            Connection conn = DriverManager.getConnection(url,"root","");
-
-            System.out.println("Connected");
-
-            Statement state = conn.createStatement();
-
-            state.executeUpdate("drop table if exists PHONE_CASES");
-
-            state.executeUpdate("CREATE TABLE PHONE_CASES " +
-                    "(PRICE FLOAT, " +
-                    "NAME VARCHAR(1500), " +
-                    "MODEL VARCHAR(100), " +
-                    "URL VARCHAR(500), "+
-                    "PICTURE VARCHAR(500))");
-
-
-            Connection conn = new Connection*/
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return accessoriesAll;
     }
 
     private static Document connect(String url) {
@@ -141,5 +120,53 @@ public class ScraperMain {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public InputStream getResource(String filename){
+        if(filename == null){ throw new IllegalArgumentException("Filename cannot be null"); }
+
+        try{
+            URL url = this.getClass().getClassLoader().getResource(filename);
+
+            if(url == null){ return null; }
+
+            URLConnection connection = url.openConnection();
+            connection.setUseCaches(false);
+            return connection.getInputStream();
+        }catch(IOException ex){
+            return null;
+        }
+    }
+
+    public void saveResource(File folder, String resourcePath, boolean replace){
+        if((resourcePath == null) || (resourcePath.equals(""))){ throw new IllegalArgumentException("ResourcePath cannot be null or empty"); }
+        resourcePath = resourcePath.replace('\\', '/');
+        InputStream in = getResource(resourcePath);
+        if(in == null){
+            System.out.println("The embedded resource '" + resourcePath + "' cannot be found");
+            return;
+        }
+        File outFile = new File(folder, resourcePath);
+        int lastIndex = resourcePath.lastIndexOf('/');
+        File outDir = new File(folder, resourcePath.substring(0, lastIndex >= 0 ? lastIndex : 0));
+        if(!outDir.exists()){
+            outDir.mkdirs();
+        }
+        try{
+            if(!outFile.exists() || replace){
+                OutputStream out = new FileOutputStream(outFile);
+                byte[] buf = new byte[1024];
+                int len;
+                while((len = in.read(buf)) > 0){
+                    out.write(buf, 0, len);
+                }
+                out.close();
+                in.close();
+            }else{
+                System.out.print("Could not save " + outFile.getName() + " to " + outFile + " because " + outFile.getName() + " already exists.");
+            }
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
     }
 }

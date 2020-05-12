@@ -92,7 +92,7 @@ public class JBHIFIScreenProtector implements Scaper {
 
             String caseUrl = getBaseURL() + e.select(".link").attr("href");
 
-            cases.add(new PhoneCase(title, model, caseUrl, image, price));
+            cases.add(new PhoneCase(title, model, caseUrl, image, image, price));
 
         }
 

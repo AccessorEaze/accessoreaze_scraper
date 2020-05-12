@@ -5,8 +5,8 @@ import me.accessoreaze.scraper.accessory.type.AccessoryType;
 public class ScreenProtector extends Accessory {
 
 
-    public ScreenProtector(String name, String model, String url, String picture, double price) {
-        super(name, model, url, picture, price);
+    public ScreenProtector(String name, String model, String url, String imageSmall, String imageBig, double price) {
+        super(name, model, url, imageSmall, imageBig, price);
 
         type = AccessoryType.SCREEN_PROTECTOR;
     }

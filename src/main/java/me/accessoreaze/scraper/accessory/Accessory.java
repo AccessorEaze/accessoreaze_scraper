@@ -4,17 +4,18 @@ import me.accessoreaze.scraper.accessory.type.AccessoryType;
 
 public abstract class Accessory {
 
-    protected String model, url, picture, name;
+    protected String model, url, name, imageSmall, imageBig;
     protected double price;
     protected AccessoryType type;
 
 
-    public Accessory(String name, String model, String url, String picture, double price) {
+    public Accessory(String name, String model, String url, String imageSmall, String imageBig, double price) {
         this.name = name;
         this.model = model;
         this.url = url;
-        this.picture = picture;
         this.price = price;
+        this.imageSmall = imageSmall;
+        this.imageBig = imageBig;
     }
 
     public String getModel() {
@@ -33,12 +34,12 @@ public abstract class Accessory {
         this.url = url;
     }
 
-    public String getPicture() {
-        return picture;
+    public String getImageSmall() {
+        return imageSmall;
     }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
+    public String getImageBig() {
+        return imageBig;
     }
 
     public double getPrice() {
@@ -61,10 +62,14 @@ public abstract class Accessory {
     }
 
     public String toString(){
-        String result = this.model + ": " + this.price;
+        String result = this.model + "\\" + this.name + ": " + this.price;
 
-        result += "\nURL:" + this.url + "\nPicture:" + this.picture;
+        result += "\nURL:" + this.url + "\nPicture:" + this.imageBig;
 
         return result;
+    }
+
+    public String getExtra(){
+        return "{}";
     }
 }
