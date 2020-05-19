@@ -10,6 +10,16 @@ import java.util.Map;
 
 public class AccessoryTypeDatabase extends SQLListener {
 
+    private static AccessoryTypeDatabase accessoryTypeDatabase = new AccessoryTypeDatabase();
+
+    public static AccessoryTypeDatabase getInstance(){
+        return accessoryTypeDatabase;
+    }
+
+    private AccessoryTypeDatabase(){
+
+    }
+
     private static PreparedStatement createType, getType;
 
     private static Map<String, Integer> cache = new HashMap();
@@ -26,7 +36,7 @@ public class AccessoryTypeDatabase extends SQLListener {
         }
     }
 
-    public static int getType(String accessory){
+    public int getType(String accessory){
         if(cache.containsKey(accessory)){
             return cache.get(accessory);
         }
@@ -35,9 +45,10 @@ public class AccessoryTypeDatabase extends SQLListener {
             getType.setString(1, accessory);
             ResultSet rs = getType.executeQuery();
             if(rs.next()){
-                rs.close();
                 typeId = rs.getInt("type_id");
+                rs.close();
             }else {
+                rs.close();
                 createType.setString(1, accessory);
                 createType.executeUpdate();
                 rs = getType.executeQuery();

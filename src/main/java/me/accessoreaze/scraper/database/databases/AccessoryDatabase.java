@@ -11,8 +11,17 @@ import java.util.Map;
 
 public class AccessoryDatabase extends SQLListener {
 
-    private static PreparedStatement insertAccessory;
+    private static AccessoryDatabase accessoryDatabase = new AccessoryDatabase();
 
+    public static AccessoryDatabase getInstance(){
+        return accessoryDatabase;
+    }
+
+    private AccessoryDatabase(){
+
+    }
+
+    private static PreparedStatement insertAccessory;
 
     @Override
     public void setup(Connection con) {
@@ -25,9 +34,9 @@ public class AccessoryDatabase extends SQLListener {
         }
     }
 
-    public static void insertAccessory(Accessory accessory){
+    public void insertAccessory(Accessory accessory){
         try{
-            int id = AccessoryTypeDatabase.getType(accessory.getAccessoryType().name());
+            int id = AccessoryTypeDatabase.getInstance().getType(accessory.getAccessoryType().name());
 
             insertAccessory.setInt(1, id);
             insertAccessory.setDouble(2, accessory.getPrice());
@@ -38,6 +47,18 @@ public class AccessoryDatabase extends SQLListener {
             insertAccessory.setString(7, accessory.getModel());
             insertAccessory.setString(8, accessory.getExtra());
             insertAccessory.executeUpdate();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public  void transferTable(){
+        try{
+            ensureConnection();
+            Connection connection = getDatabase().getConnection();
+            connection.prepareStatement("DROP TABLE `accessory`;").execute();
+            connection.prepareStatement("RENAME TABLE `accessory_temp` TO `accessory_temp`;").execute();
+            connection.prepareStatement("DROP TABLE `accessory_temp`;");
         }catch (Exception e){
             e.printStackTrace();
         }

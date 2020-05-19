@@ -2,10 +2,9 @@ package me.accessoreaze.scraper.scapers.JBHIFI;
 
 import me.accessoreaze.scraper.ScraperMain;
 import me.accessoreaze.scraper.accessory.Accessory;
-import me.accessoreaze.scraper.accessory.PhoneCase;
 import me.accessoreaze.scraper.accessory.ScreenProtector;
 import me.accessoreaze.scraper.accessory.type.AccessoryType;
-import me.accessoreaze.scraper.scapers.Scaper;
+import me.accessoreaze.scraper.scapers.Scraper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -14,7 +13,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class JBHIFIPhoneCase implements Scaper {
+public class JBHIFIPhoneCase implements Scraper {
 
     public static void main(String[] args) {
         ScraperMain.test(new JBHIFIPhoneCase());
