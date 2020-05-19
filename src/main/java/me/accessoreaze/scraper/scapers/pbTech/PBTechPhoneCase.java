@@ -134,7 +134,10 @@ public class PBTechPhoneCase implements Scraper {
             price = price*1.15;
             price = Double.parseDouble(ScraperMain.df.format(price));
             System.out.println(model + ": " + imageBig + " : " + price);
-            accessories.add(new PhoneCase(name, model, itemUrl, image, imageBig, price));
+            PhoneCase phoneCase = new PhoneCase(name, model, itemUrl, image, imageBig, price);
+            // replace value with a stirng value of the review, this will auto be put into the database nicely
+            phoneCase.addExtra("review", "<value>");
+            accessories.add(phoneCase);
         }
         return accessories;
     }

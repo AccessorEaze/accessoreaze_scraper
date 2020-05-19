@@ -1,5 +1,6 @@
 package me.accessoreaze.scraper.accessory;
 
+import com.google.gson.JsonObject;
 import me.accessoreaze.scraper.accessory.type.AccessoryType;
 
 public abstract class Accessory {
@@ -7,6 +8,7 @@ public abstract class Accessory {
     protected String model, url, name, imageSmall, imageBig;
     protected double price;
     protected AccessoryType type;
+    protected JsonObject extra;
 
 
     public Accessory(String name, String model, String url, String imageSmall, String imageBig, double price) {
@@ -16,6 +18,7 @@ public abstract class Accessory {
         this.price = price;
         this.imageSmall = imageSmall;
         this.imageBig = imageBig;
+        this.extra = new JsonObject();
     }
 
     public String getModel() {
@@ -69,7 +72,11 @@ public abstract class Accessory {
         return result;
     }
 
-    public String getExtra(){
-        return "{}";
+    public String getExtraString(){
+        return extra.toString();
+    }
+
+    public void addExtra(String key, String value){
+        extra.addProperty(key, value);
     }
 }
