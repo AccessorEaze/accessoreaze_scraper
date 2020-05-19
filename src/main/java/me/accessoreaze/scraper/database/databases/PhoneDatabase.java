@@ -46,7 +46,7 @@ public class PhoneDatabase extends SQLListener {
         try{
             ensureConnection();
             Connection connection = getDatabase().getConnection();
-            connection.prepareStatement("DROP TABLE `phones`;").execute();
+            connection.prepareStatement("DROP TABLE IF EXISTS `phones`;").execute();
             connection.prepareStatement("RENAME TABLE `phones_temp` TO `phones`;").execute();
             connection.prepareStatement("DROP TABLE `phones_temp`;");
         }catch (Exception e){

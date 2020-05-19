@@ -56,7 +56,7 @@ public class AccessoryDatabase extends SQLListener {
         try{
             ensureConnection();
             Connection connection = getDatabase().getConnection();
-            connection.prepareStatement("DROP TABLE `accessories`;").execute();
+            connection.prepareStatement("DROP TABLE IF EXISTS `accessories`;").execute();
             connection.prepareStatement("RENAME TABLE `accessory_temp` TO `accessories`;").execute();
             connection.prepareStatement("DROP TABLE `accessory_temp`;");
         }catch (Exception e){
