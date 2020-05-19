@@ -1,14 +1,13 @@
 package me.accessoreaze.scraper;
 
 import me.accessoreaze.scraper.accessory.Accessory;
-import me.accessoreaze.scraper.accessory.type.AccessoryType;
 import me.accessoreaze.scraper.database.databases.AccessoryDatabase;
 import me.accessoreaze.scraper.database.databases.AccessoryTypeDatabase;
 import me.accessoreaze.scraper.database.mysql.MySQLDatabase;
 import me.accessoreaze.scraper.database.mysql.MySQLProperties;
-import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIHeadPhones;
-import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIPhoneCase;
-import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIScreenProtector;
+import me.accessoreaze.scraper.scapers.jbhifi.JBHIFIHeadPhones;
+import me.accessoreaze.scraper.scapers.jbhifi.JBHIFIPhoneCase;
+import me.accessoreaze.scraper.scapers.jbhifi.JBHIFIScreenProtector;
 import me.accessoreaze.scraper.scapers.Scaper;
 import me.accessoreaze.scraper.scapers.pbTech.PBTechPhoneCase;
 import me.accessoreaze.scraper.scapers.pbTech.PBTechScreenProtectedScraper;
@@ -18,9 +17,6 @@ import org.jsoup.nodes.Document;
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.*;
 

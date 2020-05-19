@@ -1,4 +1,4 @@
-package me.accessoreaze.scraper.scapers.JBHIFI;
+package me.accessoreaze.scraper.scapers.jbhifi;
 
 import me.accessoreaze.scraper.ScraperMain;
 import me.accessoreaze.scraper.accessory.Accessory;
@@ -52,7 +52,7 @@ public class JBHIFIScreenProtector implements Scaper {
     // Accessory type
     @Override
     public AccessoryType getType() {
-        return AccessoryType.PHONE_CASE;
+        return AccessoryType.SCREEN_PROTECTOR;
     }
 
     @Override
