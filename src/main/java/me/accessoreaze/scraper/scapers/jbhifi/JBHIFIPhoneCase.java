@@ -94,7 +94,7 @@ public class JBHIFIPhoneCase implements Scraper {
 
             String caseUrl = getBaseURL() + e.select(".link").attr("href");
 
-            cases.add(new ScreenProtector(title, model, caseUrl,image, image, price));
+            cases.add(new ScreenProtector(title, model, caseUrl,image, image, price,"JBHIFI"));
 
         }
 

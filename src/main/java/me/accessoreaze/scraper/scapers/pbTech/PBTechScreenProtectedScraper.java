@@ -133,7 +133,7 @@ public class PBTechScreenProtectedScraper implements Scraper {
 
             System.out.println(model + ": " + imageBig + " : " + Math.floor(price*1.15+1));
 //            System.out.printf("%s: %s : %.3f",model,imageBig,price*1.15);
-            accessories.add(new ScreenProtector(name, model, itemUrl, image, imageBig, price));
+            accessories.add(new ScreenProtector(name, model, itemUrl, image, imageBig, price, "PBTech"));
         }
         return accessories;
     }

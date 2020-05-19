@@ -104,7 +104,7 @@ public class JBHIFIHeadPhones implements Scraper {
 
             String caseUrl = getBaseURL() + e.select(".link").attr("href");
 
-            headphones.add(new HeadPhones(title, model, caseUrl,image, image, price));
+            headphones.add(new HeadPhones(title, model, caseUrl,image, image, price,"JBHIFI"));
 
         }
 

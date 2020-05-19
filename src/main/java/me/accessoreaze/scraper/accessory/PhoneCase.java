@@ -4,8 +4,8 @@ import me.accessoreaze.scraper.accessory.type.AccessoryType;
 
 public class PhoneCase extends Accessory {
 
-    public PhoneCase(String name,String model, String url, String imageSmall, String imageBig, double price) {
-        super(name, model, url, imageSmall, imageBig, price);
+    public PhoneCase(String name,String model, String url, String imageSmall, String imageBig, double price,String vendor) {
+        super(name, model, url, imageSmall, imageBig, price,vendor);
 
         type = AccessoryType.PHONE_CASE;
     }

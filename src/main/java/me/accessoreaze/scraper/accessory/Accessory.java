@@ -4,19 +4,28 @@ import me.accessoreaze.scraper.accessory.type.AccessoryType;
 
 public abstract class Accessory {
 
-    protected String model, url, name, imageSmall, imageBig;
+    protected String model, url, name, imageSmall, imageBig, rating, vendor;
     protected double price;
     protected AccessoryType type;
 
 
-    public Accessory(String name, String model, String url, String imageSmall, String imageBig, double price) {
+    public Accessory(String name, String model, String url, String imageSmall, String imageBig, double price, String vendor) {
         this.name = name;
         this.model = model;
         this.url = url;
         this.price = price;
         this.imageSmall = imageSmall;
         this.imageBig = imageBig;
+        this.vendor = vendor;
     }
+
+    public String getRating()
+    {
+        return this.rating;
+    }
+
+    public void setRating(String rating){this.rating = rating;}
+
 
     public String getModel() {
         return model;
