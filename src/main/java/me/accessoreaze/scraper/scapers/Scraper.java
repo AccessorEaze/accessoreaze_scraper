@@ -6,7 +6,7 @@ import org.jsoup.nodes.Document;
 
 import java.util.Collection;
 
-public interface Scaper {
+public interface Scraper {
 
     String getScrapeURL();
 

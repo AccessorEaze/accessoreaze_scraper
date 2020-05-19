@@ -3,14 +3,17 @@ package me.accessoreaze.scraper;
 import me.accessoreaze.scraper.accessory.Accessory;
 import me.accessoreaze.scraper.database.databases.AccessoryDatabase;
 import me.accessoreaze.scraper.database.databases.AccessoryTypeDatabase;
+import me.accessoreaze.scraper.database.databases.PhoneDatabase;
 import me.accessoreaze.scraper.database.mysql.MySQLDatabase;
 import me.accessoreaze.scraper.database.mysql.MySQLProperties;
-import me.accessoreaze.scraper.scapers.jbhifi.JBHIFIHeadPhones;
-import me.accessoreaze.scraper.scapers.jbhifi.JBHIFIPhoneCase;
-import me.accessoreaze.scraper.scapers.jbhifi.JBHIFIScreenProtector;
-import me.accessoreaze.scraper.scapers.Scaper;
+import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIHeadPhones;
+import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIPhoneCase;
+import me.accessoreaze.scraper.scapers.JBHIFI.JBHIFIScreenProtector;
+import me.accessoreaze.scraper.scapers.Scraper;
 import me.accessoreaze.scraper.scapers.pbTech.PBTechPhoneCase;
 import me.accessoreaze.scraper.scapers.pbTech.PBTechScreenProtectedScraper;
+import me.accessoreaze.scraper.scapers.phone.Phone;
+import me.accessoreaze.scraper.scapers.phone.PhoneListScraper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -35,10 +38,11 @@ public class ScraperMain {
         saveResource(new File("."), "mysql.properties", false);
         MySQLProperties properties = new MySQLProperties(new File(".", "mysql.properties"));
         database = new MySQLDatabase(properties, true);
-        database.addListener(new AccessoryDatabase());
-        database.addListener(new AccessoryTypeDatabase());
+        database.addListener(AccessoryDatabase.getInstance());
+        database.addListener(AccessoryTypeDatabase.getInstance());
+        database.addListener(PhoneDatabase.getInstance());
 
-        List<Scaper> scrapers = new ArrayList<>();
+        List<Scraper> scrapers = new ArrayList<>();
 
         // Add more scrapers here, group them
         scrapers.add(new PBTechScreenProtectedScraper());
@@ -57,10 +61,17 @@ public class ScraperMain {
         List<Accessory> accessories = new ArrayList<>();
         scrapers.forEach(scaper -> accessories.addAll(runScraper(scaper)));
 
-        accessories.forEach(AccessoryDatabase::insertAccessory);
+        AccessoryDatabase accessoryDatabase = AccessoryDatabase.getInstance();
+        accessories.forEach(accessoryDatabase::insertAccessory);
+        accessoryDatabase.transferTable();
+
+        List<Phone> phones = PhoneListScraper.getInstance().scrape();
+        PhoneDatabase phoneDatabase = PhoneDatabase.getInstance();
+        phones.forEach(phoneDatabase::insertPhone);
+        phoneDatabase.transferTable();
     }
 
-    public static void test(Scaper scraper) {
+    public static void test(Scraper scraper) {
         try {
             // Connect to main page
             Document website = connect(scraper.getScrapeURL());
@@ -79,7 +90,7 @@ public class ScraperMain {
         }
     }
 
-    private static Set<Accessory> runScraper(Scaper scraper) {
+    private static Set<Accessory> runScraper(Scraper scraper) {
         // Create collection of accessories
         Set<Accessory> accessoriesAll = new LinkedHashSet<>();
         try {
@@ -109,9 +120,9 @@ public class ScraperMain {
         return accessoriesAll;
     }
 
-    private static Document connect(String url) {
+    public static Document connect(String url) {
         try {
-            return Jsoup.connect(url).execute().bufferUp().parse();
+            return Jsoup.connect(url).maxBodySize(120000000).execute().bufferUp().parse();
         } catch (IOException e) {
             e.printStackTrace();
         }

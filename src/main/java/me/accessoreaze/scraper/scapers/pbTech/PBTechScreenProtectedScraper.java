@@ -4,7 +4,7 @@ import me.accessoreaze.scraper.ScraperMain;
 import me.accessoreaze.scraper.accessory.Accessory;
 import me.accessoreaze.scraper.accessory.ScreenProtector;
 import me.accessoreaze.scraper.accessory.type.AccessoryType;
-import me.accessoreaze.scraper.scapers.Scaper;
+import me.accessoreaze.scraper.scapers.Scraper;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-public class PBTechScreenProtectedScraper implements Scaper {
+public class PBTechScreenProtectedScraper implements Scraper {
 
     public static void main(String[] args) {
         ScraperMain.test(new PBTechScreenProtectedScraper());
