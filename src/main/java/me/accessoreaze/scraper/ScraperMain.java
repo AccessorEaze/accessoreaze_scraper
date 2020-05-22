@@ -44,16 +44,16 @@ public class ScraperMain {
 
         List<Scraper> scrapers = new ArrayList<>();
 
-        // Add more scrapers here, group them
-        scrapers.add(new PBTechScreenProtectedScraper());
+//         Add more scrapers here, group them
+//        scrapers.add(new PBTechScreenProtectedScraper());
         scrapers.add(new PBTechPhoneCase());
-        scrapers.add(new JBHIFIScreenProtector());
-        scrapers.add(new JBHIFIPhoneCase());
-        scrapers.add(new JBHIFIHeadPhones());
+//        scrapers.add(new JBHIFIScreenProtector());
+//        scrapers.add(new JBHIFIPhoneCase());
+//        scrapers.add(new JBHIFIHeadPhones());
         // Run each scraper
-        //for (Scaper scraper : scrapers) {
-        //    runScraper(scraper);
-        //}
+        for (Scraper scraper : scrapers) {
+            runScraper(scraper);
+        }
 
 
 

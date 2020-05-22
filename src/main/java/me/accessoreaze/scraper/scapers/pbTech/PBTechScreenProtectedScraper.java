@@ -90,6 +90,18 @@ public class PBTechScreenProtectedScraper implements Scraper {
             String name = item.getElementsByClass("item_line_name").first().attr("title");
             String itemUrl = getBaseURL()+item.getElementsByClass("item_line_name").first().attr("href");
 
+            String rating = item.getElementsByClass("rating-star").attr("title");
+
+            double ratings = 0;
+
+            if (rating.isEmpty())
+            {
+                ratings = -1;
+            }
+            else
+            {
+                ratings = Double.parseDouble(rating.split(" ")[0]);
+            }
 
             // Model is in the more section
             Element more = item.getElementsByClass("item_more").first();
@@ -133,7 +145,10 @@ public class PBTechScreenProtectedScraper implements Scraper {
 
             System.out.println(model + ": " + imageBig + " : " + Math.floor(price*1.15+1));
 //            System.out.printf("%s: %s : %.3f",model,imageBig,price*1.15);
-            accessories.add(new ScreenProtector(name, model, itemUrl, image, imageBig, price, "PBTech"));
+            ScreenProtector temp = new ScreenProtector(name, model, itemUrl, image, imageBig, price, "PBTech");
+            temp.addExtra("Ratings", (int)(ratings*2));
+            accessories.add(temp);
+
         }
         return accessories;
     }

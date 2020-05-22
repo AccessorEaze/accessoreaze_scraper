@@ -23,9 +23,11 @@ public class AccessoryDatabase extends SQLListener {
     @Override
     public void setup(Connection con) {
         try {
-            con.prepareStatement("CREATE TABLE IF NOT EXISTS `accessory_temp`  (`id` INT NOT NULL AUTO_INCREMENT,  `type_id` INT NOT NULL, `price` DOUBLE NOT NULL, `url` TEXT NOT NULL, `imageSmall` TEXT NOT NULL, `imageBig` TEXT NOT NULL, `product` TEXT NOT NULL, `device` TINYTEXT NOT NULL, `extra` MEDIUMTEXT NOT NULL, PRIMARY KEY (`id`));").executeUpdate();
+            con.prepareStatement("DROP TABLE `accessory_temp`;").execute();
 
-            insertAccessory = con.prepareStatement("INSERT INTO `accessory_temp` (`type_id`, `price`, `url`, `imageSmall`, `imageBig`, `product`, `device`, `extra`) VALUES (?,?,?,?,?,?,?,?);");
+            con.prepareStatement("CREATE TABLE IF NOT EXISTS `accessory_temp`  (`id` INT NOT NULL AUTO_INCREMENT,  `type_id` INT NOT NULL, `price` DOUBLE NOT NULL, `url` TEXT NOT NULL, `imageSmall` TEXT NOT NULL, `imageBig` TEXT NOT NULL, `product` TEXT NOT NULL, `device` TINYTEXT NOT NULL, `extra` MEDIUMTEXT NOT NULL, `vendor` TEXT NOT NULL, PRIMARY KEY (`id`));").executeUpdate();
+
+            insertAccessory = con.prepareStatement("INSERT INTO `accessory_temp` (`type_id`, `price`, `url`, `imageSmall`, `imageBig`, `product`, `device`, `extra`,`vendor`) VALUES (?,?,?,?,?,?,?,?,?);");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,6 +45,7 @@ public class AccessoryDatabase extends SQLListener {
             insertAccessory.setString(6, accessory.getName());
             insertAccessory.setString(7, accessory.getModel());
             insertAccessory.setString(8, accessory.getExtraString());
+            insertAccessory.setString(9,accessory.getVendor());
             insertAccessory.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();

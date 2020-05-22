@@ -5,13 +5,13 @@ import me.accessoreaze.scraper.accessory.type.AccessoryType;
 
 public abstract class Accessory {
 
-    protected String model, url, name, imageSmall, imageBig;
+    protected String model, url, name, imageSmall, imageBig,vendor;
     protected double price;
     protected AccessoryType type;
     protected JsonObject extra;
 
 
-    public Accessory(String name, String model, String url, String imageSmall, String imageBig, double price) {
+    public Accessory(String name, String model, String url, String imageSmall, String imageBig, double price, String vendor) {
         this.name = name;
         this.model = model;
         this.url = url;
@@ -19,7 +19,14 @@ public abstract class Accessory {
         this.imageSmall = imageSmall;
         this.imageBig = imageBig;
         this.extra = new JsonObject();
+        this.vendor = vendor;
     }
+
+    public String getVendor()
+    {
+        return this.vendor;
+    }
+
 
     public String getModel() {
         return model;
@@ -77,6 +84,9 @@ public abstract class Accessory {
     }
 
     public void addExtra(String key, String value){
+        extra.addProperty(key, value);
+    }
+    public void addExtra(String key, int value){
         extra.addProperty(key, value);
     }
 }
