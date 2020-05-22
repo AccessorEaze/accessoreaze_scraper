@@ -92,8 +92,6 @@ public class PBTechPhoneCase implements Scraper {
             String name = item.getElementsByClass("item_line_name").first().attr("title");
             String itemUrl = getBaseURL()+item.getElementsByClass("item_line_name").first().attr("href");
 
-            System.out.println(item.getElementsByClass("ratingLink").first().attr("title"));
-
             // Model is in the more section
             Element more = item.getElementsByClass("item_more").first();
             Element modelSearch = more.getElementsByClass("item_attribute").stream().filter(element -> element.toString().contains("Compatible Model: ")).findAny().orElse(null);
@@ -136,7 +134,10 @@ public class PBTechPhoneCase implements Scraper {
             price = price*1.15;
             price = Double.parseDouble(ScraperMain.df.format(price));
             System.out.println(model + ": " + imageBig + " : " + price);
-            accessories.add(new PhoneCase(name, model, itemUrl, image, imageBig, price, "PBTech"));
+            PhoneCase phoneCase = new PhoneCase(name, model, itemUrl, image, imageBig, price);
+            // replace value with a stirng value of the review, this will auto be put into the database nicely
+            phoneCase.addExtra("review", "<value>");
+            accessories.add(phoneCase);
         }
         return accessories;
     }

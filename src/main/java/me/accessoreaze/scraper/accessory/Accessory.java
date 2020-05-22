@@ -1,31 +1,25 @@
 package me.accessoreaze.scraper.accessory;
 
+import com.google.gson.JsonObject;
 import me.accessoreaze.scraper.accessory.type.AccessoryType;
 
 public abstract class Accessory {
 
-    protected String model, url, name, imageSmall, imageBig, rating, vendor;
+    protected String model, url, name, imageSmall, imageBig;
     protected double price;
     protected AccessoryType type;
+    protected JsonObject extra;
 
 
-    public Accessory(String name, String model, String url, String imageSmall, String imageBig, double price, String vendor) {
+    public Accessory(String name, String model, String url, String imageSmall, String imageBig, double price) {
         this.name = name;
         this.model = model;
         this.url = url;
         this.price = price;
         this.imageSmall = imageSmall;
         this.imageBig = imageBig;
-        this.vendor = vendor;
+        this.extra = new JsonObject();
     }
-
-    public String getRating()
-    {
-        return this.rating;
-    }
-
-    public void setRating(String rating){this.rating = rating;}
-
 
     public String getModel() {
         return model;
@@ -78,7 +72,11 @@ public abstract class Accessory {
         return result;
     }
 
-    public String getExtra(){
-        return "{}";
+    public String getExtraString(){
+        return extra.toString();
+    }
+
+    public void addExtra(String key, String value){
+        extra.addProperty(key, value);
     }
 }

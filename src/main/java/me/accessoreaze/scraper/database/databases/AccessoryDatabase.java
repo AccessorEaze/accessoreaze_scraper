@@ -5,9 +5,6 @@ import me.accessoreaze.scraper.database.mysql.listener.SQLListener;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.HashMap;
-import java.util.Map;
 
 public class AccessoryDatabase extends SQLListener {
 
@@ -45,7 +42,7 @@ public class AccessoryDatabase extends SQLListener {
             insertAccessory.setString(5, accessory.getImageBig());
             insertAccessory.setString(6, accessory.getName());
             insertAccessory.setString(7, accessory.getModel());
-            insertAccessory.setString(8, accessory.getExtra());
+            insertAccessory.setString(8, accessory.getExtraString());
             insertAccessory.executeUpdate();
         }catch (Exception e){
             e.printStackTrace();
