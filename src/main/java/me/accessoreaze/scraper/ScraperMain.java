@@ -1,19 +1,9 @@
 package me.accessoreaze.scraper;
 
 import me.accessoreaze.scraper.accessory.Accessory;
-import me.accessoreaze.scraper.database.databases.AccessoryDatabase;
-import me.accessoreaze.scraper.database.databases.AccessoryTypeDatabase;
-import me.accessoreaze.scraper.database.databases.PhoneDatabase;
 import me.accessoreaze.scraper.database.mysql.MySQLDatabase;
-import me.accessoreaze.scraper.database.mysql.MySQLProperties;
-import me.accessoreaze.scraper.scapers.jbhifi.JBHIFIHeadPhones;
-import me.accessoreaze.scraper.scapers.jbhifi.JBHIFIPhoneCase;
-import me.accessoreaze.scraper.scapers.jbhifi.JBHIFIScreenProtector;
 import me.accessoreaze.scraper.scapers.Scraper;
-import me.accessoreaze.scraper.scapers.pbTech.PBTechPhoneCase;
-import me.accessoreaze.scraper.scapers.pbTech.PBTechScreenProtectedScraper;
-import me.accessoreaze.scraper.scapers.phone.Phone;
-import me.accessoreaze.scraper.scapers.phone.PhoneListScraper;
+import me.accessoreaze.scraper.scapers.wareHouse.WareHousePhoneCase;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -35,18 +25,19 @@ public class ScraperMain {
     }
 
     public ScraperMain(){
-        saveResource(new File("."), "mysql.properties", false);
-        MySQLProperties properties = new MySQLProperties(new File(".", "mysql.properties"));
-        database = new MySQLDatabase(properties, true);
-        database.addListener(AccessoryDatabase.getInstance());
-        database.addListener(AccessoryTypeDatabase.getInstance());
-        database.addListener(PhoneDatabase.getInstance());
+//        saveResource(new File("."), "mysql.properties", false);
+//        MySQLProperties properties = new MySQLProperties(new File(".", "mysql.properties"));
+//        database = new MySQLDatabase(properties, true);
+//        database.addListener(AccessoryDatabase.getInstance());
+//        database.addListener(AccessoryTypeDatabase.getInstance());
+//        database.addListener(PhoneDatabase.getInstance());
 
         List<Scraper> scrapers = new ArrayList<>();
 
 //         Add more scrapers here, group them
 //        scrapers.add(new PBTechScreenProtectedScraper());
-        scrapers.add(new PBTechPhoneCase());
+//        scrapers.add(new PBTechPhoneCase());
+        scrapers.add(new WareHousePhoneCase());
 //        scrapers.add(new JBHIFIScreenProtector());
 //        scrapers.add(new JBHIFIPhoneCase());
 //        scrapers.add(new JBHIFIHeadPhones());
@@ -61,14 +52,14 @@ public class ScraperMain {
         List<Accessory> accessories = new ArrayList<>();
         scrapers.forEach(scaper -> accessories.addAll(runScraper(scaper)));
 
-        AccessoryDatabase accessoryDatabase = AccessoryDatabase.getInstance();
-        accessories.forEach(accessoryDatabase::insertAccessory);
-        accessoryDatabase.transferTable();
-
-        List<Phone> phones = PhoneListScraper.getInstance().scrape();
-        PhoneDatabase phoneDatabase = PhoneDatabase.getInstance();
-        phones.forEach(phoneDatabase::insertPhone);
-        phoneDatabase.transferTable();
+//        AccessoryDatabase accessoryDatabase = AccessoryDatabase.getInstance();
+//        accessories.forEach(accessoryDatabase::insertAccessory);
+//        accessoryDatabase.transferTable();
+//
+//        List<Phone> phones = PhoneListScraper.getInstance().scrape();
+//        PhoneDatabase phoneDatabase = PhoneDatabase.getInstance();
+//        phones.forEach(phoneDatabase::insertPhone);
+//        phoneDatabase.transferTable();
     }
 
     public static void test(Scraper scraper) {
@@ -113,7 +104,7 @@ public class ScraperMain {
             // TODO Add to db
 
             String tableName = "";
-            Accessory first = accessoriesAll.iterator().next();
+//            Accessory first = accessoriesAll.iterator().next();
         } catch (Exception e) {
             e.printStackTrace();
         }
