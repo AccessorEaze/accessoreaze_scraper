@@ -2,6 +2,7 @@ package me.accessoreaze.scraper.scapers.jbhifi;
 
 import me.accessoreaze.scraper.ScraperMain;
 import me.accessoreaze.scraper.accessory.Accessory;
+import me.accessoreaze.scraper.accessory.PhoneCase;
 import me.accessoreaze.scraper.accessory.ScreenProtector;
 import me.accessoreaze.scraper.accessory.type.AccessoryType;
 import me.accessoreaze.scraper.scapers.Scraper;
@@ -94,7 +95,7 @@ public class JBHIFIPhoneCase implements Scraper {
 
             String caseUrl = getBaseURL() + e.select(".link").attr("href");
 
-            cases.add(new ScreenProtector(title, model, caseUrl,image, image, price,"JBHIFI"));
+            cases.add(new PhoneCase(title, model, caseUrl,image, image, price,"JBHIFI"));
 
         }
 

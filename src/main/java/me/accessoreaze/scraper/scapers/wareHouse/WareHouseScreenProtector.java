@@ -30,7 +30,7 @@ public class WareHouseScreenProtector implements Scraper {
     // Base url for the website, useful for links
     @Override
     public String getBaseURL() {
-        return "https://www.thewarehouse.co.nz/";
+        return "https://www.thewarehouse.co.nz";
     }
 
     @Override

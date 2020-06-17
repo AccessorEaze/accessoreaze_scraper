@@ -92,7 +92,7 @@ public class PBTechScreenProtectedScraper implements Scraper {
 
             String rating = item.getElementsByClass("rating-star").attr("title");
 
-            double ratings = 0;
+            double ratings;
 
             if (rating.isEmpty())
             {
@@ -148,7 +148,6 @@ public class PBTechScreenProtectedScraper implements Scraper {
             ScreenProtector temp = new ScreenProtector(name, model, itemUrl, image, imageBig, price, "PBTech");
             temp.addExtra("Ratings", (int)(ratings*2));
             accessories.add(temp);
-
         }
         return accessories;
     }
